@@ -244,13 +244,13 @@ export default function App() {
               <TextField fullWidth size="small" variant="outlined" type="date" InputLabelProps={{ shrink: true }} sx={{ width: '445px'}} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" variant="outlined" label="Customer Employee" />
+              <TextField fullWidth size="small" variant="outlined" label="Customer Employee" sx={{width: '210px'}} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" variant="outlined" label="Site Name" />
+              <TextField fullWidth size="small" variant="outlined" label="Site Name" sx={{ width: '210px'}} />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField fullWidth size="small" variant="outlined" label="UGES Employee" />
+              <TextField fullWidth size="small" variant="outlined" label="UGES Employee" sx={{ width: '200px'}} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField fullWidth size="small" variant="outlined" label="Location/Country" />
