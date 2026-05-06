@@ -1,5 +1,22 @@
 import React, { useState, useMemo } from 'react';
-import { Box, Typography, TextField, Grid, Paper, Divider, ThemeProvider, createTheme, CssBaseline, FormControlLabel, Checkbox, Radio, RadioGroup, FormGroup, Chip, Button } from '@mui/material';
+import {
+  Box,
+  Typography,
+  TextField,
+  Grid,
+  Paper,
+  Divider,
+  ThemeProvider,
+  createTheme,
+  CssBaseline,
+  FormControlLabel,
+  Checkbox,
+  Radio,
+  RadioGroup,
+  FormGroup,
+  Chip,
+  Button
+} from '@mui/material';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -9,7 +26,7 @@ import SendIcon from '@mui/icons-material/Send';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2563eb',
+      main: '#2563eb', // Matches the active label and button color
     },
     background: {
       default: '#f1f5f9',
@@ -56,6 +73,7 @@ const theme = createTheme({
               borderColor: '#94a3b8',
             },
           },
+          // Ensures the floating label has a white background so it doesn't overlap borders
           '& .MuiInputLabel-root.Mui-focused': {
             color: '#2563eb',
           }
@@ -74,26 +92,6 @@ const theme = createTheme({
     }
   },
 });
-
-// Helper component
-const FormInput = ({ label, name, value, onChange, type = "text", multiline = false, rows = 1, fullWidth = true, required = false }) => (
-  <Box sx={{ mb: 2 }}>
-    <TextField
-      fullWidth={fullWidth}
-      size="small"
-      variant="outlined"
-      label={label}
-      name={name}
-      value={value}
-      onChange={onChange}
-      type={type}
-      multiline={multiline}
-      rows={rows}
-      required={required}
-      InputLabelProps={type === 'date' || type === 'time' ? { shrink: true } : undefined}
-    />
-  </Box>
-);
 
 // Helper component for rating rows
 const RatingRow = ({ label, value, onChange }) => (
@@ -122,10 +120,11 @@ const RatingRow = ({ label, value, onChange }) => (
 );
 
 export default function App() {
+  // State for Document Details
   const [docDetails, setDocDetails] = useState({
     docNo: 'UGES-MR-F-19',
     revNo: '00',
-    effDt: '2020-08-01'
+    effDt: '2020-08-01' 
   });
 
   const handleDocDetailChange = (e) => {
@@ -169,6 +168,7 @@ export default function App() {
     const sum = validRatings.reduce((acc, curr) => acc + curr, 0);
     const avg = validRatings.length > 0 ? (sum / validRatings.length).toFixed(1) : 0;
     
+    // Suggestion is mandatory if any score is below 6
     const mandatory = validRatings.some(v => v < 6);
     
     return { average: avg, isSuggestionMandatory: mandatory };
@@ -193,10 +193,14 @@ export default function App() {
 
           <Divider sx={{ mb: 4 }} />
 
+          {/* Document Meta Details */}
           <Box sx={{ mb: 4, p: 2, bgcolor: '#f8fafc', borderRadius: 2, border: '1px solid #e2e8f0' }}>
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               <Grid item xs={12} sm={4}>
-                <FormInput 
+                <TextField 
+                  fullWidth 
+                  size="small" 
+                  variant="outlined" 
                   label="Doc. No." 
                   name="docNo" 
                   value={docDetails.docNo} 
@@ -204,7 +208,10 @@ export default function App() {
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <FormInput 
+                <TextField 
+                  fullWidth 
+                  size="small" 
+                  variant="outlined" 
                   label="Rev. No." 
                   name="revNo" 
                   value={docDetails.revNo} 
@@ -212,26 +219,42 @@ export default function App() {
                 />
               </Grid>
               <Grid item xs={12} sm={4}>
-                <FormInput 
+                <TextField 
+                  fullWidth 
+                  size="small" 
+                  variant="outlined" 
                   label="Eff. Dt." 
                   type="date" 
                   name="effDt" 
                   value={docDetails.effDt} 
                   onChange={handleDocDetailChange} 
+                  InputLabelProps={{ shrink: true }}
                 />
               </Grid>
             </Grid>
           </Box>
 
-          {/* Section A: General Details */}
+          {/* Section A: General Details - 2-Column Grid */}
           <Typography variant="h6">A. General Details</Typography>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={6}><FormInput label="Name of Assignment" /></Grid>
-            <Grid item xs={12} sm={6}><FormInput type="date" /></Grid>
-            <Grid item xs={12} sm={6}><FormInput label="Customer Employee" /></Grid>
-            <Grid item xs={12} sm={6}><FormInput label="Site Name" /></Grid>
-            <Grid item xs={12} sm={6}><FormInput label="UGES Employee" /></Grid>
-            <Grid item xs={12} sm={6}><FormInput label="Location/Country" /></Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth size="small" variant="outlined" label="Name of Assignment" sx={{ width: '445px'}} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth size="small" variant="outlined" type="date" InputLabelProps={{ shrink: true }} sx={{ width: '445px'}} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth size="small" variant="outlined" label="Customer Employee" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth size="small" variant="outlined" label="Site Name" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth size="small" variant="outlined" label="UGES Employee" />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField fullWidth size="small" variant="outlined" label="Location/Country" />
+            </Grid>
           </Grid>
 
           {/* Section B: Type of Services */}
@@ -292,9 +315,12 @@ export default function App() {
           <Typography variant="h6">D. Feedback Section</Typography>
           <Box sx={{ mb: 4, borderRadius: 2, border: '1px solid #e2e8f0', p: 3 }}>
             
-            <Box sx={{ mb: 4 }}>
-                <FormInput label="Title / Description" />
-            </Box>
+            <Grid container spacing={3} sx={{ mb: 3 }}>
+              {/* Wrapped in a Grid item to strictly match the height and width of all other fields */}
+              <Grid item xs={12} sm={6}>
+                  <TextField fullWidth size="small" variant="outlined" label="Title / Description" sx={{ width: '300px'}}/>
+              </Grid>
+            </Grid>
 
             <Box sx={{ display: { xs: 'none', sm: 'flex' }, justifyContent: 'flex-end', borderBottom: '2px solid #e2e8f0', pb: 1, mb: 1, px: 2 }}>
                <Typography variant="caption" sx={{ fontWeight: 600, color: '#64748b' }}>Score Ratings</Typography>
@@ -317,26 +343,43 @@ export default function App() {
             (In case of confidential feedback: you may write to "enquiry@uges.co.in")
           </Typography>
 
-          <Grid container spacing={3}>
-            <Grid item xs={12}>
-              <FormInput label="Name of Participants (Optional)" />
+          {/* Section E: Participants & Authorization - Strict 2x2 Grid */}
+          <Typography variant="h6">E. Participants & Authorization</Typography>
+          <Box sx={{ mb: 4, p: 3, bgcolor: '#fafafa', borderRadius: 2, border: '1px solid #e2e8f0' }}>
+            <Grid container spacing={3}>
+              {/* Row 1 */}
+              <Grid item xs={12} sm={6}>
+                <TextField fullWidth size="small" variant="outlined" label="Name of Participants (Optional)" sx={{ width: '420px'}} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField 
+                  fullWidth 
+                  size="small" 
+                  variant="outlined" 
+                  label={`Suggestions ${isSuggestionMandatory ? '(Mandatory)' : '(Mandatory if assessment is below 6)'}`}
+                  required={isSuggestionMandatory}
+                  sx={{ width: '420px'}}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <FormInput 
-                label={`Suggestions for Improvement ${isSuggestionMandatory ? '(Mandatory)' : '(Mandatory if assessment is below 6)'}`}
-                multiline 
-                rows={4} 
-                required={isSuggestionMandatory}
-              />
-            </Grid>
-          </Grid>
-
-          {/* Signature Block */}
-          <Box sx={{ mt: 5, p: 3, bgcolor: '#fafafa', borderRadius: 2, border: '1px solid #e2e8f0', width: { xs: '100%', md: '50%' } }}>
-            <Typography variant="subtitle2" sx={{ color: '#1e293b', mb: 3 }}>Authorization</Typography>
-            <FormInput label="Name" />
-            <FormInput type="date" />
           </Box>
+              {/* Row 2 */}
+              <Typography variant="h6">F. Authorization</Typography>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <TextField fullWidth size="small" variant="outlined" label="Authorization Name & Sign" sx={{ width: '320px'}} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField 
+                    fullWidth 
+                    size="small" 
+                    variant="outlined" 
+                    type="date" 
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ width: '320px'}}
+                  />
+                </Grid>
+              </Grid>
 
           <Divider sx={{ my: 4 }} />
 
@@ -366,7 +409,6 @@ export default function App() {
     </ThemeProvider>
   );
 }
-
 
 // import React, { useState, useMemo } from 'react';
 // import {
@@ -464,21 +506,20 @@ export default function App() {
 // });
 
 // // Helper component using MUI's native floating labels
-// const FormInput = ({ label, type = "text", multiline = false, rows = 1, fullWidth = true, required = false }) => (
-//   <Box sx={{ mb: 2 }}>
-//     <TextField
-//       fullWidth={fullWidth}
-//       size="small"
-//       variant="outlined"
-//       label={label}
-//       type={type}
-//       multiline={multiline}
-//       rows={rows}
-//       required={required}
-//       // Force label to stay at top for dates, otherwise use default floating behavior
-//       InputLabelProps={type === 'date' || type === 'time' ? { shrink: true } : undefined}
-//     />
-//   </Box>
+// // Note: Removed multiline/rows and external Box margins to ensure exactly the same height/width for all inputs
+// const FormInput = ({ label, name, value, onChange, type = "text", required = false }) => (
+//   <TextField
+//     fullWidth
+//     size="small"
+//     variant="outlined"
+//     label={label}
+//     name={name}
+//     value={value}
+//     onChange={onChange}
+//     type={type}
+//     required={required}
+//     InputLabelProps={type === 'date' || type === 'time' ? { shrink: true } : undefined}
+//   />
 // );
 
 // // Helper component for rating rows
@@ -508,6 +549,17 @@ export default function App() {
 // );
 
 // export default function App() {
+//   // State for Document Details
+//   const [docDetails, setDocDetails] = useState({
+//     docNo: 'UGES-MR-F-19',
+//     revNo: '00',
+//     effDt: '2020-08-01' 
+//   });
+
+//   const handleDocDetailChange = (e) => {
+//     setDocDetails({ ...docDetails, [e.target.name]: e.target.value });
+//   };
+
 //   // State for Checkboxes
 //   const [services, setServices] = useState({});
 //   const [otherService, setOtherService] = useState(false);
@@ -559,28 +611,53 @@ export default function App() {
 //         <Paper elevation={3} sx={{ width: '100%', maxWidth: '1000px', p: { xs: 3, md: 5 }, borderRadius: 2 }}>
           
 //           {/* Header */}
-//           <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 2 }}>
+//           <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
 //             <Box sx={{ display: 'flex', alignItems: 'center', color: '#1e40af' }}>
 //               <RateReviewIcon sx={{ fontSize: 32, mr: 1, color: '#3b82f6' }} />
 //               <Typography variant="h4" component="h1" sx={{ fontWeight: 800, color: '#1e293b' }}>
 //                 Feedback Form
 //               </Typography>
 //             </Box>
-            
-//             <Box sx={{ textAlign: { xs: 'left', sm: 'right' }, color: '#64748b', fontSize: '0.8rem' }}>
-//               <Typography variant="caption" display="block">Doc. No.: UGES-MR-F-19</Typography>
-//               <Typography variant="caption" display="block">Rev. No.: 00</Typography>
-//               <Typography variant="caption" display="block">Eff. Dt.: 01/08/2020</Typography>
-//             </Box>
 //           </Box>
 
 //           <Divider sx={{ mb: 4 }} />
 
-//           {/* Section A: General Details */}
+//           {/* Document Meta Details */}
+//           <Box sx={{ mb: 4, p: 2, bgcolor: '#f8fafc', borderRadius: 2, border: '1px solid #e2e8f0' }}>
+//             <Grid container spacing={3}>
+//               <Grid item xs={12} sm={4}>
+//                 <FormInput 
+//                   label="Doc. No." 
+//                   name="docNo" 
+//                   value={docDetails.docNo} 
+//                   onChange={handleDocDetailChange} 
+//                 />
+//               </Grid>
+//               <Grid item xs={12} sm={4}>
+//                 <FormInput 
+//                   label="Rev. No." 
+//                   name="revNo" 
+//                   value={docDetails.revNo} 
+//                   onChange={handleDocDetailChange} 
+//                 />
+//               </Grid>
+//               <Grid item xs={12} sm={4}>
+//                 <FormInput 
+//                   label="Eff. Dt." 
+//                   type="date" 
+//                   name="effDt" 
+//                   value={docDetails.effDt} 
+//                   onChange={handleDocDetailChange} 
+//                 />
+//               </Grid>
+//             </Grid>
+//           </Box>
+
+//           {/* Section A: General Details - 2-Column Grid */}
 //           <Typography variant="h6">A. General Details</Typography>
-//           <Grid container spacing={1}>
+//           <Grid container spacing={3}>
 //             <Grid item xs={12} sm={6}><FormInput label="Name of Assignment" /></Grid>
-//             <Grid item xs={12} sm={6}><FormInput type="date" /></Grid>
+//             <Grid item xs={12} sm={6}><FormInput label="Date" type="date" /></Grid>
 //             <Grid item xs={12} sm={6}><FormInput label="Customer Employee" /></Grid>
 //             <Grid item xs={12} sm={6}><FormInput label="Site Name" /></Grid>
 //             <Grid item xs={12} sm={6}><FormInput label="UGES Employee" /></Grid>
@@ -645,9 +722,12 @@ export default function App() {
 //           <Typography variant="h6">D. Feedback Section</Typography>
 //           <Box sx={{ mb: 4, borderRadius: 2, border: '1px solid #e2e8f0', p: 3 }}>
             
-//             <Box sx={{ mb: 4 }}>
-//                 <FormInput label="Title / Description" />
-//             </Box>
+//             <Grid container spacing={3} sx={{ mb: 3 }}>
+//               {/* Wrapped in a Grid item to strictly match the height and width of all other fields */}
+//               <Grid item xs={12} sm={6}>
+//                   <FormInput label="Title / Description" />
+//               </Grid>
+//             </Grid>
 
 //             <Box sx={{ display: { xs: 'none', sm: 'flex' }, justifyContent: 'flex-end', borderBottom: '2px solid #e2e8f0', pb: 1, mb: 1, px: 2 }}>
 //                <Typography variant="caption" sx={{ fontWeight: 600, color: '#64748b' }}>Score Ratings</Typography>
@@ -670,25 +750,35 @@ export default function App() {
 //             (In case of confidential feedback: you may write to "enquiry@uges.co.in")
 //           </Typography>
 
-//           <Grid container spacing={3}>
-//             <Grid item xs={12}>
-//               <FormInput label="Name of Participants (Optional)" />
+//           {/* Section E: Participants & Authorization - Strict 2x2 Grid */}
+//           <Typography variant="h6">E. Participants & Authorization</Typography>
+//           <Box sx={{ mb: 4, p: 3, bgcolor: '#fafafa', borderRadius: 2, border: '1px solid #e2e8f0' }}>
+//             <Grid container spacing={3}>
+//               {/* Row 1 */}
+//               <Grid item xs={12} sm={6}>
+//                 <FormInput label="Name of Participants (Optional)" />
+//               </Grid>
+//               <Grid item xs={12} sm={6}>
+//                 <FormInput 
+//                   label={`Suggestions ${isSuggestionMandatory ? '(Mandatory)' : '(Mandatory if < 6)'}`}
+//                   required={isSuggestionMandatory}
+//                 />
+//               </Grid>
 //             </Grid>
-//             <Grid item xs={12}>
-//               <FormInput 
-//                 label={`Suggestions for Improvement ${isSuggestionMandatory ? '(Mandatory)' : '(Mandatory if assessment is below 6)'}`}
-//                 multiline 
-//                 rows={4} 
-//                 required={isSuggestionMandatory}
-//               />
-//             </Grid>
-//           </Grid>
+//           </Box>
 
-//           {/* Signature Block */}
-//           <Box sx={{ mt: 5, p: 3, bgcolor: '#fafafa', borderRadius: 2, border: '1px solid #e2e8f0', width: { xs: '100%', md: '50%' } }}>
-//             <Typography variant="subtitle2" sx={{ color: '#1e293b', mb: 3 }}>Authorization</Typography>
-//             <FormInput label="Name" />
-//             <FormInput type="date" />
+
+//           <Typography variant="h6">F. Authorization</Typography>
+//           <Box sx={{ mb: 4, p: 3, bgcolor: '#fafafa', borderRadius: 2, border: '1px solid #e2e8f0' }}>
+//             <Grid container spacing={3}>
+//               {/* Row 2 */}
+//               <Grid item xs={12} sm={6}>
+//                 <FormInput label="Authorization Name & Sign" />
+//               </Grid>
+//               <Grid item xs={12} sm={6}>
+//                 <FormInput type="date" />
+//               </Grid>
+//             </Grid>
 //           </Box>
 
 //           <Divider sx={{ my: 4 }} />
@@ -719,3 +809,5 @@ export default function App() {
 //     </ThemeProvider>
 //   );
 // }
+
+
