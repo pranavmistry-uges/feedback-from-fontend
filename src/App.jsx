@@ -1,25 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import {
-  Box,
-  Typography,
-  TextField,
-  Grid,
-  Paper,
-  Divider,
-  ThemeProvider,
-  createTheme,
-  CssBaseline,
-  FormControlLabel,
-  Checkbox,
-  FormGroup,
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow
-} from '@mui/material';
+import { Box, Typography, TextField, Grid, Paper, Divider, ThemeProvider, createTheme, CssBaseline, FormControlLabel, Checkbox, FormGroup, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -34,7 +14,7 @@ import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfi
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#2563eb', // Matches the active label and button color
+      main: '#2563eb',
     },
     background: {
       default: '#f1f5f9',
